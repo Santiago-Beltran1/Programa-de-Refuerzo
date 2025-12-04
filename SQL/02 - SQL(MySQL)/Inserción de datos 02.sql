@@ -1,6 +1,6 @@
 -- Inserción de datos:
 
-USE multilab;
+USE santiagoMulti;
 
 INSERT INTO cat (nom, des) VALUES
 ('Elec', 'Dispositivos Electrónicos'),

@@ -1,0 +1,159 @@
+// use santiago_GPS_Masc <- Comenzamos creando la base de datos en Mongo
+
+db.createCollection("propietarios")
+db.createCollection("mascotas")
+db.createCollection("dispositivos")
+db.createCollection("alertas")
+
+const propietarioUno = db.propietarios.insertOne({
+  nombre: "Santiago Beltran",
+  correo: "SB@gmail.com",
+  contactos: [
+    { tipo: "móvil", valor: "+57 300 1111111" },
+    { tipo: "email_alterno", valor: "santiagoB@gmail.com" }
+  ],
+  direccion: { ciudad: "Mosquera", barrio: "Santa Ana" },
+  creado_en: new Date("2025-05-10T10:00:00Z")
+})
+
+const propietarioDos = db.propietarios.insertOne({
+  nombre: "David Pedraza",
+  correo: "DP@gmail.com",
+  contactos: [{ tipo: "móvil", valor: "+57 300 2222222" }],
+  direccion: { ciudad: "Funza", barrio: "El rubi" },
+  creado_en: new Date("2025-06-18T11:30:00Z")
+})
+
+db.mascotas.insertMany([
+  {
+    nombre: "Sirius",
+    especie: "gato",
+    raza: "Azul Russo",
+    propietario_id: propietarioUno.insertedId,
+    microchip: "C-01",
+    etiquetas: ["activo","jugueton"],
+    historial: [
+      { loc: { type: "Point", coordinates: [-74.1111, 8.2222] }, ts: new Date("2025-05-01T08:00:00Z") },
+      { loc: { type: "Point", coordinates: [-74.9999, 8.1111] }, ts: new Date("2025-06-02T09:00:00Z") }
+    ],
+    creado_en: new Date("2025-05-01T07:45:00Z")
+  },
+  {
+    nombre: "Toby",
+    especie: "Conejo",
+    raza: "Blanco",
+    propietario_id: propietarioDos.insertedId,
+    microchip: "C-02",
+    etiquetas: ["chiquito", "agil"],
+    historial: [
+      { loc: { type: "Point", coordinates: [-76.3333, 9.3333] }, ts: new Date("2025-07-20T07:30:00Z") }
+    ],
+    creado_en: new Date("2025-07-20T07:00:00Z")
+  }
+])
+
+db.dispositivos.insertMany([
+  {
+    device_id: "D-01",
+    nombre_mascota: "Sirius",
+    mascota_id: db.mascotas.findOne({ nombre: "Sirius" })._id,
+    estado: "activo",
+    bateria_pct: 71,
+    ultima_ubicacion: { type: "Point", coordinates: [-74.9999, 8.1111] },
+    ultima_vez_visto: new Date("2025-06-02T09:00:00Z"),
+    creado_en: new Date("2025-05-01T09:10:00Z")
+  },
+  {
+    device_id: "D-02",
+    nombre_mascota: "Toby",
+    mascota_id: db.mascotas.findOne({ nombre: "Toby" })._id,
+    estado: "activo",
+    bateria_pct: 89,
+    ultima_ubicacion: { type: "Point", coordinates: [-76.3333, 9.3333] },
+    ultima_vez_visto: new Date("2025-07-20T07:30:00Z"),
+    creado_en: new Date("2025-07-20T07:05:00Z")
+  }
+])
+
+db.dispositivos.createIndex({ ultima_ubicacion: "2dsphere" })
+db.mascotas.createIndex({ "historial.loc": "2dsphere" })
+
+// crear:
+db.alertas.insertOne({
+  device_id: "D-02",
+  mascota_id: db.mascotas.findOne({ nombre: "Toby" })._id,
+  tipo: "bateria_alta",
+  mensaje: "Batería cargada",
+  nivel: "advertencia",
+  creado_en: new Date("2025-08-01T12:00:00Z"),
+  manejada: false
+})
+
+// leer:
+print("Propietario:");
+printjson(db.propietarios.findOne({ nombre: "Santiago Beltran" }))
+
+print("Mascotas de Santiago:");
+printjson(db.mascotas.find({ propietario_id: propietarioUno.insertedId }).toArray())
+
+print("Dispositivos cerca de [-74.071, 4.712]:");
+printjson(db.dispositivos.find({
+  ultima_ubicacion: {
+    $near: {
+      $geometry: { type: "Point", coordinates: [-74.071, 4.712] },
+      $maxDistance: 5000    // Esto seria en metros
+    }
+  }
+}).toArray())
+
+print("Nombres y etiquetas de mascotas:");
+printjson(db.mascotas.find({}, { nombre: 1, etiquetas: 1, _id: 0 }).toArray())
+
+// actualizar:
+const reporteNuevo = {
+  loc: { type: "Point", coordinates: [-75.2222, 7.7777] },
+  ts: new Date("2025-09-15T12:30:00Z")
+}
+
+db.dispositivos.updateOne(
+  { device_id: "D-01" },
+  { $set: { ultima_ubicacion: reporteNuevo.loc, ultima_vez_visto: reporteNuevo.ts, bateria_pct: 55 } }
+)
+
+db.mascotas.updateOne(
+  { nombre: "Sirius" },
+  { $push: { historial: reporteNuevo } }
+)
+
+db.alertas.updateOne(
+  { device_id: "D-02", tipo: "bateria_alta" },
+  { $set: { nivel: "bueno" }, $inc: { intentos_notificar: 1 } }
+)
+
+//eliminar:
+const alertaRegistro = db.alertas.findOne({ device_id: "D-02" })
+if (alertaRegistro) {
+  db.alertas.deleteOne({ _id: alertaRegistro._id })
+}
+
+db.dispositivos.updateOne(
+  { device_id: "D-02" },
+  { $set: { estado: "eliminado", eliminado_en: new Date("2025-10-05T14:20:00Z") } }
+)
+
+// Consulta Avanzada
+// Encontrar una mascota cuyo historial tenga una ubicación dentro de un radio
+print("Mascotas cerca de [-74.071,4.712]:")
+printjson(db.mascotas.find({
+  "historial.loc": {
+    $near: {
+      $geometry: { type: "Point", coordinates: [-74.071, 4.712] },
+      $maxDistance: 3000
+    }
+  }
+}).toArray())
+
+print("Dispositivos activos:", db.dispositivos.countDocuments({ estado: "activo" }))
+
+db.propietarios.createIndex({ correo: 1 }, { unique: true })
+db.mascotas.createIndex({ microchip: 1 }, { unique: true })
