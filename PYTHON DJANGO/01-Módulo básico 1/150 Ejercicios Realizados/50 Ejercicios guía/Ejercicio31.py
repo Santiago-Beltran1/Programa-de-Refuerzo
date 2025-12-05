@@ -1,17 +1,17 @@
 import random
 
-class Animal:
-    def __init__(self, nombre, tipo, energia=100, posicion_x=0, posicion_y=0):
-        self.nombre = nombre
-        self.tipo = tipo  # "herbívoro", "carnívoro"
-        self.energia = energia
-        self.posicion_x = posicion_x
-        self.posicion_y = posicion_y
-        self.vivo = True
+class santiagoAnimal:
+    def __init__(self, santiagoNom, santiagoTip, santiagoEnergy=100, santiagoPosX=0, santiagoPosY=0):
+        self.nombre = santiagoNom
+        self.tipo = santiagoTip  # "herbívoro", "carnívoro"
+        self.energia = santiagoEnergy
+        self.posicion_x = santiagoPosX
+        self.posicion_y = santiagoPosY
+        self.santiagoVivo = True
 
-    def mover(self):
+    def santiagoMov(self):
         """Mueve el animal aleatoriamente"""
-        if self.vivo:
+        if self.santiagoVivo:
             self.posicion_x += random.randint(-1, 1)
             self.posicion_y += random.randint(-1, 1)
             self.energia -= 5  # Moverse cuesta energía
@@ -19,14 +19,14 @@ class Animal:
             print(f"{self.nombre} se movió a ({self.posicion_x}, {self.posicion_y}). Energía: {self.energia}")
 
             if self.energia <= 0:
-                self.vivo = False
+                self.santiagoVivo = False
                 print(f"{self.nombre} ha muerto por falta de energía.")
 
 
 # Prueba del código
-animal = Animal("Leo", "carnívoro")
+santiagoA1 = santiagoAnimal("Leo", "carnívoro")
 
 for _ in range(25):
-    animal.mover()
-    if not animal.vivo:
+    santiagoA1.santiagoMov()
+    if not santiagoA1.santiagoVivo:
         break

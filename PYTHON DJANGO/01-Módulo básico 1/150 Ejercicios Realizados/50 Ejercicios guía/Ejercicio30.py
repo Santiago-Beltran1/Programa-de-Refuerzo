@@ -1,39 +1,39 @@
-def calcular_similitud(usuario1, usuario2):
+def santiagoCalcSimili(santiagoUser1, santiagoUser2):
     """Calcula similitud entre dos usuarios basada en gustos comunes
     Retorna un valor entre 0 (muy diferentes) y 1 (muy similares)"""
-    gustos_comunes = 0
-    total_comparaciones = 0
+    santiagoGustosComunes = 0
+    santiagoTotalComparaciones = 0
 
     # Comparar cada categoría
-    for categoria in usuario1:
-        if categoria in usuario2:
-            total_comparaciones += 1
+    for santiagoCategoria in santiagoUser1:
+        if santiagoCategoria in santiagoUser2:
+            santiagoTotalComparaciones += 1
 
             # Si ambos tienen el mismo gusto (True/True o False/False)
-            if usuario1[categoria] == usuario2[categoria]:
-                gustos_comunes += 1
+            if santiagoUser1[santiagoCategoria] == santiagoUser2[santiagoCategoria]:
+                santiagoGustosComunes += 1
 
-    if total_comparaciones == 0:
+    if santiagoTotalComparaciones == 0:
         return 0
 
-    similitud = gustos_comunes / total_comparaciones
-    return round(similitud, 2)
+    santiagoSimilitud = santiagoGustosComunes / santiagoTotalComparaciones
+    return round(santiagoSimilitud, 2)
 
 
-def encontrar_usuarios_similares(usuario_objetivo, base_usuarios, umbral=0.6):
+def santiagoEncontrarIguales(santiagoUserObj, santiagoBaseUsers, umbral=0.6):
     """
     Encuentra usuarios similares al usuario objetivo
     """
     similares = []
-    print(f"Buscando usuarios similares a '{usuario_objetivo}'")
+    print(f"Buscando usuarios similares a '{santiagoUserObj}'")
     print(f"Umbral de similitud: {umbral}")
     print("-" * 40)
 
-    gustos_objetivo = base_usuarios[usuario_objetivo]
+    gustos_objetivo = santiagoBaseUsers[santiagoUserObj]
 
-    for nombre_usuario, gustos_usuario in base_usuarios.items():
-        if nombre_usuario != usuario_objetivo:
-            similitud = calcular_similitud(gustos_objetivo, gustos_usuario)
+    for nombre_usuario, gustos_usuario in santiagoBaseUsers.items():
+        if nombre_usuario != santiagoUserObj:
+            similitud = santiagoCalcSimili(gustos_objetivo, gustos_usuario)
             print(f"{nombre_usuario}: similitud = {similitud}")
             if similitud >= umbral:
                 similares.append((nombre_usuario, similitud))
@@ -102,7 +102,7 @@ print("\n" + "=" * 50)
 
 # Buscar similares para Ana
 usuario_objetivo = "Ana"
-similares = encontrar_usuarios_similares(usuario_objetivo, usuarios, 0.4)
+similares = santiagoEncontrarIguales(usuario_objetivo, usuarios, 0.4)
 
 print(f"\nUsuarios similares a {usuario_objetivo}:")
 for similar, similitud in similares:

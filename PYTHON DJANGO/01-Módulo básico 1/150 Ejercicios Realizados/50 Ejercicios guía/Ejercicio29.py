@@ -1,23 +1,23 @@
-def es_primo_simple(numero):
+def santiagoEsPrimo(santiagoN):
     """
     Verifica si un número es primo usando método básico
     Un número primo solo es divisible por 1 y por sí mismo
     """
-    if numero < 2:
+    if santiagoN < 2:
         return False
-    print(f"Verificando si {numero} es primo:")
-    for i in range(2, int(numero ** 0.5) + 1):  # Solo hasta la raíz cuadrada
-        print(f" ¿{numero} es divisible por {i}? ", end="")
-        if numero % i == 0:
-            print(f"Sí ({numero} / {i} = {numero // i})")
+    print(f"Verificando si {santiagoN} es primo:")
+    for i in range(2, int(santiagoN ** 0.5) + 1):  # Solo hasta la raíz cuadrada
+        print(f" ¿{santiagoN} es divisible por {i}? ", end="")
+        if santiagoN % i == 0:
+            print(f"Sí ({santiagoN} / {i} = {santiagoN // i})")
             return False
         else:
             print("No")
-    print(f" 7 {numero} es primo")
+    print(f" 7 {santiagoN} es primo")
     return True
 
 
-def criba_eratostenes(limite):
+def santiagoCribaErastotenes(limite):
     """
     Encuentra todos los primos hasta 'limite' usando la Criba de Eratóstenes
     Es más eficiente para encontrar múltiples primos
@@ -76,13 +76,13 @@ print("=" * 40)
 numeros_probar = [17, 25, 29]
 print("1. VERIFICACIÓN INDIVIDUAL:")
 for num in numeros_probar:
-    resultado = es_primo_simple(num)
+    resultado = santiagoEsPrimo(num)
     print()
 
 # Criba de Eratóstenes
 print("\n2. CRIBA DE ERATÓSTENES:")
 print("-" * 30)
-primos_hasta_30 = criba_eratostenes(30)
+primos_hasta_30 = santiagoCribaErastotenes(30)
 print(f"\nPrimos encontrados hasta 30: {primos_hasta_30}")
 print(f"Total de primos: {len(primos_hasta_30)}")
 

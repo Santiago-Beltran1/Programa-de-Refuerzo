@@ -1,63 +1,63 @@
 import random
 import string
 
-def generar_contraseña(longitud=8, incluir_mayusculas=True, incluir_numeros=True, incluir_simbolos=False):
+def santiagoGenCont(santiagoLong=8, santiagoIncMay=True, santiagoIncNums=True, santiagoIncSimbs=False):
     """Genera una contraseña aleatoria con las características especificadas"""
-    caracteres = string.ascii_lowercase  # letras minúsculas
+    santiagoCaracteres = string.ascii_lowercase  # letras minúsculas
 
-    if incluir_mayusculas:
-        caracteres += string.ascii_uppercase  # agregar mayúsculas
-    if incluir_numeros:
-        caracteres += string.digits  # agregar números 0-9
-    if incluir_simbolos:
-        caracteres += "!@#$%&*"  # agregar algunos símbolos
+    if santiagoIncMay:
+        santiagoCaracteres += string.ascii_uppercase  # agregar mayúsculas
+    if santiagoIncNums:
+        santiagoCaracteres += string.digits  # agregar números 0-9
+    if santiagoIncSimbs:
+        santiagoCaracteres += "!@#$%&*"  # agregar algunos símbolos
 
     # Generar la contraseña
-    contraseña = ""
-    for i in range(longitud):
-        caracter_aleatorio = random.choice(caracteres)
-        contraseña += caracter_aleatorio
+    santiagoContra = ""
+    for i in range(santiagoLong):
+        santiagoAleatorio = random.choice(santiagoCaracteres)
+        santiagoContra += santiagoAleatorio
 
-    return contraseña
+    return santiagoContra
 
 
-def evaluar_fortaleza(contraseña):
+def santiagoEvaluar(santiagoCon):
     """Evalúa qué tan fuerte es una contraseña"""
-    puntos = 0
-    comentarios = []
+    santiagoPoints = 0
+    santiagoComents = []
 
     # Longitud
-    if len(contraseña) >= 8:
-        puntos += 2
-        comentarios.append("✓ Longitud adecuada")
+    if len(santiagoCon) >= 8:
+        santiagoPoints += 2
+        santiagoComents.append("✓ Longitud adecuada")
     else:
-        comentarios.append("✗ Muy corta (mínimo 8 caracteres)")
+        santiagoComents.append("✗ Muy corta (mínimo 8 caracteres)")
 
     # Mayúsculas
-    if any(c.isupper() for c in contraseña):
-        puntos += 1
-        comentarios.append("✓ Contiene mayúsculas")
+    if any(c.isupper() for c in santiagoCon):
+        santiagoPoints += 1
+        santiagoComents.append("✓ Contiene mayúsculas")
     else:
-        comentarios.append("✗ Sin mayúsculas")
+        santiagoComents.append("✗ Sin mayúsculas")
 
     # Números
-    if any(c.isdigit() for c in contraseña):
-        puntos += 1
-        comentarios.append("✓ Contiene números")
+    if any(c.isdigit() for c in santiagoCon):
+        santiagoPoints += 1
+        santiagoComents.append("✓ Contiene números")
     else:
-        comentarios.append("✗ Sin números")
+        santiagoComents.append("✗ Sin números")
 
     # Evaluar fortaleza
-    if puntos >= 4:
+    if santiagoPoints >= 4:
         fortaleza = "Muy fuerte"
-    elif puntos >= 3:
+    elif santiagoPoints >= 3:
         fortaleza = "Fuerte"
-    elif puntos >= 2:
+    elif santiagoPoints >= 2:
         fortaleza = "Moderada"
     else:
         fortaleza = "Débil"
 
-    return fortaleza, comentarios
+    return fortaleza, santiagoComents
 
 
 # Probando el generador
@@ -65,19 +65,19 @@ print("GENERADOR DE CONTRASEÑAS")
 print("=" * 40)
 
 # Generar diferentes tipos de contraseñas
-contraseña1 = generar_contraseña(12, True, True, False)
-contraseña2 = generar_contraseña(8, True, True, True)
-contraseña3 = generar_contraseña(6, False, False, False)
+santiago1 = santiagoGenCont(12, True, True, False)
+santiago2 = santiagoGenCont(8, True, True, True)
+santiago3 = santiagoGenCont(6, False, False, False)
 
-contraseñas = [
-    ("Estándar (12 caracteres)", contraseña1),
-    ("Con símbolos (8 caracteres)", contraseña2),
-    ("Solo minúsculas (6 caracteres)", contraseña3)
+santiagoCons = [
+    ("Estándar (12 caracteres)", santiago1),
+    ("Con símbolos (8 caracteres)", santiago2),
+    ("Solo minúsculas (6 caracteres)", santiago3)
 ]
 
-for descripcion, contraseña in contraseñas:
-    fortaleza, comentarios = evaluar_fortaleza(contraseña)
-    print(f"\n{descripcion}:")
+for santiagoDesc, contraseña in santiagoCons:
+    fortaleza, comentarios = santiagoEvaluar(contraseña)
+    print(f"\n{santiagoDesc}:")
     print(f"Contraseña: {contraseña}")
     print(f"Fortaleza: {fortaleza}")
     for comentario in comentarios:

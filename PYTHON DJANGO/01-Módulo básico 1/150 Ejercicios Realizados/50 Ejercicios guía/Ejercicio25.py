@@ -1,54 +1,54 @@
 # Sistema de registro de estudiantes
 
-estudiantes = []  # Lista global para almacenar estudiantes
+santiagoEsts = []  # Lista global para almacenar estudiantes
 
-def agregar_estudiante(nombre, edad, grado):
+def santiagoAgEst(santiagoNom, santiagoEdad, santiagoGrado):
     """Agrega un nuevo estudiante al sistema"""
     estudiante = {
-        "nombre": nombre,
-        "edad": edad,
-        "grado": grado,
+        "nombre": santiagoNom,
+        "edad": santiagoEdad,
+        "grado": santiagoGrado,
         "calificaciones": []
     }
-    estudiantes.append(estudiante)
-    print(f"Estudiante {nombre} agregado exitosamente")
+    santiagoEsts.append(estudiante)
+    print(f"Estudiante {santiagoNom} agregado exitosamente")
 
-def buscar_estudiante(nombre):
+def santiagoBus(nombre):
     """Busca un estudiante por nombre"""
-    for i, estudiante in enumerate(estudiantes):
+    for i, estudiante in enumerate(santiagoEsts):
         if estudiante["nombre"].lower() == nombre.lower():
             return i  # Retorna la posición
     return -1  # No encontrado
 
-def agregar_calificacion(nombre, materia, nota):
+def santiagoAgCal(santiagoNom, santiagoMat, santiagoNota):
     """Agrega una calificación a un estudiante"""
-    posicion = buscar_estudiante(nombre)
-    if posicion != -1:
-        calificacion = {"materia": materia, "nota": nota}
-        estudiantes[posicion]["calificaciones"].append(calificacion)
-        print(f"Calificación agregada a {nombre}: {materia} = {nota}")
+    santiagoPos = santiagoBus(santiagoNom)
+    if santiagoPos != -1:
+        santiagoCal = {"materia": santiagoMat, "nota": santiagoNota}
+        santiagoEsts[santiagoPos]["calificaciones"].append(santiagoCal)
+        print(f"Calificación agregada a {santiagoNom}: {santiagoMat} = {santiagoNota}")
     else:
-        print(f"Estudiante {nombre} no encontrado")
+        print(f"Estudiante {santiagoNom} no encontrado")
 
-def calcular_promedio(nombre):
+def santiagoCalcProm(santiagoNom):
     """Calcula el promedio de un estudiante"""
-    posicion = buscar_estudiante(nombre)
-    if posicion != -1:
-        calificaciones = estudiantes[posicion]["calificaciones"]
-        if calificaciones:
-            suma = sum(cal["nota"] for cal in calificaciones)
-            promedio = suma / len(calificaciones)
+    santiagoPos = santiagoBus(santiagoNom)
+    if santiagoPos != -1:
+        santiagoCal = santiagoEsts[santiagoPos]["calificaciones"]
+        if santiagoCal:
+            suma = sum(cal["nota"] for cal in santiagoCal)
+            promedio = suma / len(santiagoCal)
             return round(promedio, 2)
         else:
             return 0
     return None
 
-def mostrar_reporte():
+def santiagoMosReport():
     """Muestra un reporte completo de todos los estudiantes"""
     print("\n" + "=" * 50)
     print("REPORTE DE ESTUDIANTES")
     print("=" * 50)
-    for estudiante in estudiantes:
+    for estudiante in santiagoEsts:
         print(f"\nNombre: {estudiante['nombre']}")
         print(f"Edad: {estudiante['edad']} años")
         print(f"Grado: {estudiante['grado']}")
@@ -56,32 +56,28 @@ def mostrar_reporte():
             print("Calificaciones:")
             for cal in estudiante["calificaciones"]:
                 print(f" - {cal['materia']}: {cal['nota']}")
-            promedio = calcular_promedio(estudiante['nombre'])
+            promedio = santiagoCalcProm(estudiante['nombre'])
             print(f"Promedio general: {promedio}")
         else:
             print("Sin calificaciones registradas")
         print("-" * 30)
 
-# ============================
-# Probando el sistema
-# ============================
-
 print("SISTEMA DE REGISTRO DE ESTUDIANTES")
 
 # Agregar estudiantes
-agregar_estudiante("Ana García", 16, "10°")
-agregar_estudiante("Carlos López", 15, "9°")
-agregar_estudiante("María Rodríguez", 17, "11°")
+santiagoAgEst("David Santiago", 16, "10°")
+santiagoAgEst("Santiago Beltran", 15, "9°")
+santiagoAgEst("David Pedraza", 17, "11°")
 
 # Agregar calificaciones
-agregar_calificacion("Ana García", "Matemáticas", 9.2)
-agregar_calificacion("Ana García", "Historia", 8.8)
-agregar_calificacion("Ana García", "Ciencias", 9.5)
+santiagoAgCal("David Santiago", "Matemáticas", 9.2)
+santiagoAgCal("David Santiago", "Historia", 8.8)
+santiagoAgCal("David Santiago", "Ciencias", 9.5)
 
-agregar_calificacion("Carlos López", "Matemáticas", 7.5)
-agregar_calificacion("Carlos López", "Historia", 8.2)
+santiagoAgCal("Santiago Beltran", "Matemáticas", 7.5)
+santiagoAgCal("Santiago Beltran", "Historia", 8.2)
 
-agregar_calificacion("Pedro Martín", "Matemáticas", 8.0)  # Este no existe
+santiagoAgCal("Pedro Martín", "Matemáticas", 8.0)  # Este no existe
 
 # Mostrar reporte
-mostrar_reporte()
+santiagoMosReport()

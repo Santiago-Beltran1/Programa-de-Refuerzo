@@ -1,30 +1,30 @@
 import math
 from itertools import permutations
 
-def calcular_distancia(ciudad1, ciudad2):
+def santiagoCalcDis(santiagoCiudad1, santiagoCiudad2):
     """
     Calcula la distancia euclidiana entre dos ciudades
     Cada ciudad tiene coordenadas (x, y)
     """
-    x1, y1 = ciudad1
-    x2, y2 = ciudad2
-    distancia = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+    santiagoX1, santiagoy1 = santiagoCiudad1
+    santiagoX2, santiagoy2 = santiagoCiudad2
+    distancia = math.sqrt((santiagoX2 - santiagoX1)**2 + (santiagoy2 - santiagoy1)**2)
     return round(distancia, 2)
 
-def calcular_distancia_total_ruta(ciudades, ruta):
+def santiagoCalcDisTotal(santiagoCiudades, santiagoRuta):
     """
     Calcula la distancia total de una ruta completa
     La ruta es una lista de índices de ciudades
     """
-    distancia_total = 0
-    for i in range(len(ruta)):
-        ciudad_actual = ciudades[ruta[i]]
-        siguiente_ciudad = ciudades[ruta[(i + 1) % len(ruta)]]  # Para cerrar el ciclo
-        distancia = calcular_distancia(ciudad_actual, siguiente_ciudad)
-        distancia_total += distancia
-    return round(distancia_total, 2)
+    santiagoDisTotal = 0
+    for i in range(len(santiagoRuta)):
+        ciudad_actual = santiagoCiudades[santiagoRuta[i]]
+        siguiente_ciudad = santiagoCiudades[santiagoRuta[(i + 1) % len(santiagoRuta)]]  # Para cerrar el ciclo
+        distancia = santiagoCalcDis(ciudad_actual, siguiente_ciudad)
+        santiagoDisTotal += distancia
+    return round(santiagoDisTotal, 2)
 
-def metodo_fuerza_bruta(ciudades):
+def santiagoMetodFuerzaBruta(ciudades):
     """
     Encuentra la ruta óptima probando todas las combinaciones posibles
     ¡ADVERTENCIA: Solo usar con pocas ciudades por complejidad computacional!
@@ -34,7 +34,7 @@ def metodo_fuerza_bruta(ciudades):
     mejor_distancia = float('inf')
     mejor_ruta = None
     for ruta in permutations(range(num_ciudades)):
-        distancia = calcular_distancia_total_ruta(ciudades, ruta)
+        distancia = santiagoCalcDisTotal(ciudades, ruta)
         if distancia < mejor_distancia:
             mejor_distancia = distancia
             mejor_ruta = ruta
@@ -50,7 +50,7 @@ if __name__ == "__main__":
         (6, 6)
     ]
 
-    ruta_optima, distancia_optima = metodo_fuerza_bruta(ciudades)
+    ruta_optima, distancia_optima = santiagoMetodFuerzaBruta(ciudades)
     print("\nResultado final:")
     print(f"Ruta óptima: {ruta_optima}")
     print(f"Distancia total de la ruta óptima: {distancia_optima}")

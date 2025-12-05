@@ -24,7 +24,7 @@ def santiagoPMlarga(santiagoPlbs):
 
     return santiagoPLarga
 
-def es_palindromo(SantiagoText):
+def santiagoEsPalin(SantiagoText):
     """Verifica si un texto es palíndromo (se lee igual al revés)"""
     # Convertir a minúsculas y quitar espacios
     santiagoLimpio = SantiagoText.lower().replace(" ", "")
@@ -40,9 +40,9 @@ print(f"Palabras: {santiagoContar(santiagoFrase)}")
 print(f"Caracteres (con espacios): {santiagoCaracteres(santiagoFrase)}")
 print(f"Caracteres (sin espacios): {santiagoCaracteres(santiagoFrase, False)}")
 print(f"Palabra más larga: '{santiagoPMlarga(santiagoFrase)}'")
-print(f"¿Es palíndromo?: {es_palindromo(santiagoFrase)}")
+print(f"¿Es palíndromo?: {santiagoEsPalin(santiagoFrase)}")
 
 # Probando con un palíndromo
 santiagoPalin = "amo la paloma"
 print(f"\nProbando palíndromo: '{santiagoPalin}'")
-print(f"¿Es palíndromo?: {es_palindromo(santiagoPalin)}")
+print(f"¿Es palíndromo?: {santiagoEsPalin(santiagoPalin)}")
